@@ -180,6 +180,16 @@ def add_market_timing_features(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str
                                      out["common_equity"].where(out["common_equity"] > 0))
     built.append("price_to_book")
 
+    # Negative book equity, stated explicitly rather than left to leak in through
+    # price_to_book's missingness pattern. Without it the model recovers the same signal as an
+    # uninterpretable `price_to_book_isna` indicator, which ranked first on mean |SHAP| and
+    # told a reader nothing. These firms are financially distressed and carry mean leverage of
+    # 0.82 against 0.15 elsewhere. The association is strong but not tautological -- negative
+    # equity can come from accumulated losses without much debt -- so it belongs in the
+    # ranking, flagged as a distress marker rather than read as a financing choice.
+    out["negative_book_equity"] = (out["common_equity"] <= 0).astype(int)
+    built.append("negative_book_equity")
+
     out = out.sort_values(["ticker", "year"])
     ret = _by_firm(out, "price_last").pct_change(fill_method=None)
     out["stock_return"] = ret
@@ -294,7 +304,7 @@ def add_lag_and_age(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
 WINSOR_EXCLUDE = {
     "dividend_dummy", "rd_intensity_missing", "effective_tax_rate_missing",
     "firm_age_missing", "industry_unclassified", "efwamb_available",
-    "altman_z_proxy_liabilities", "firm_age",
+    "altman_z_proxy_liabilities", "firm_age", "negative_book_equity",
 }
 
 
