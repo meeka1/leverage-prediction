@@ -1,0 +1,16 @@
+# Phase 1-2 (panel construction and features)
+pandas>=2.0
+numpy>=1.24
+
+# Phase 3-6 (EDA, modelling, interpretation)
+scipy>=1.11
+statsmodels>=0.14        # OLS, Tobit baseline
+scikit-learn>=1.3        # Lasso, Random Forest, CV
+xgboost>=2.0
+shap>=0.44
+matplotlib>=3.7
+seaborn>=0.13
+jupyter>=1.0
+
+# Optional: faster panel reload
+pyarrow>=14.0
