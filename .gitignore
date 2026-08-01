@@ -1,0 +1,56 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# --- Data ---
+# Bloomberg extracts (~122 MB) are licensed data and must not be redistributed.
+# Rebuild the panel from your own pull with: python -m src.build_panel
+data/raw/
+data/interim/
+data/processed/
+
+# --- Generated outputs ---
+# Everything here is reproducible from data/raw via the pipeline.
+# Note: the contents are excluded, not the directory itself -- git will not descend into an
+# excluded directory, so `outputs/` would make the negation below unreachable.
+outputs/*
+# ...except the quality report: small, text, and cited in the methodology chapter.
+!outputs/data_quality_report.md
+
+# Trained models and large intermediates
+*.pkl
+*.joblib
+*.h5
+*.parquet
+*.feather
+
+# --- Editors / OS ---
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# --- Local config / secrets ---
+.env
+.env.local
+.claude/settings.local.json
