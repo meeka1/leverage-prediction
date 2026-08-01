@@ -103,3 +103,28 @@ UNCLASSIFIED_SECTOR = "Unclassified"
 WINSOR_LIMITS = (0.01, 0.99)
 
 EXCEL_EPOCH_OFFSET = 25569  # days between 1899-12-30 and 1970-01-01
+
+# --------------------------------------------------------------------------------------
+# Phase 2 -- features
+# --------------------------------------------------------------------------------------
+TARGET = "book_leverage"
+
+# Industry median leverage is computed leave-one-out (a firm never contributes to its own
+# industry median) and only where the sector-year cell has at least this many other firms.
+MIN_INDUSTRY_PEERS = 5
+
+# Rolling window for earnings and stock-return volatility, and the minimum periods required.
+VOLATILITY_WINDOW = 5
+VOLATILITY_MIN_PERIODS = 3
+
+# Ratios bounded on economic grounds before winsorising. Effective tax rate is meaningless
+# outside [0, 1] once pretax income turns negative.
+EFFECTIVE_TAX_BOUNDS = (0.0, 1.0)
+
+# Train/test boundary from the dissertation spec (train 2005-2019, test 2020-2023).
+TEST_START_YEAR = 2020
+
+# Predictors are built contemporaneously with the target. Set True to shift every predictor
+# back one year within firm, turning the exercise into genuine one-step-ahead prediction.
+LAG_PREDICTORS = False
+
